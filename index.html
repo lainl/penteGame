@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PENTE</title>
+  <link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="reources/css/index.css" />
+</head>
+<body>
+  <div id="startScreen">
+    <h1>Pente Game</h1>
+    <form id="gameSetup">
+      <label for="playerOne">username:</label>
+      <input type="text" id="playerOne" placeholder="player1" required>
+      
+      <div id="gameModeSelection">
+        <p>Select Game Mode:</p>
+        <input type="radio" name="gameMode" value="PvP" id="modePvP" required>
+        <label for="modePvP">Two Player</label>
+        
+        <input type="radio" name="gameMode" value="PvAI" id="modePvAI">
+        <label for="modePvAI">Player vs AI</label>
+      </div>
+      
+      <div id="playerTwoInput" style="display:none;">
+        <label for="playerTwo">p2 username:</label>
+        <input type="text" id="playerTwo" placeholder="player2">
+      </div>
+      
+      <button type="submit" id="startGame">Start Game</button>
+    </form>
+  </div>
+  
+  <div id="tutorial">
+    <h2>Game Instructions</h2>
+    <p>For additional instructions, refer to (All information below was copied from this site)<a href="https://www.pente.net/instructions.html" target="_blank">Pente Instructions</a>.</p>
+    
+    <h3>Object of the Game</h3>
+    <p>Win by placing five (or more) of your stones in a row, vertically, horizontally, or diagonally, with no empty points between them. Or, win by capturing five (or more) pairs of your opponent’s stones.</p>
+    <figure>
+      <img src="reources/images/Objective_Of_Game.png" alt="Object of the Game">
+      <figcaption>Black wins with 5 in a row</figcaption>
+  </figure>
+  
+    
+    <h3>How to Play</h3>
+    <p>Play starts with the board completely clear of stones. The first player (black) begins the game by playing one stone on the center point. Players take turns placing their stones on empty intersections. Stones cannot be moved once placed, except when captured.</p>
+    
+    <h3>Captures</h3>
+    <p>Whenever your opponent has two stones (and only two) which are adjacent, those stones are vulnerable to capture. The pair can be captured by bracketing its two ends with your own stones. The captured stones are removed from the board.
+
+      Captures can be made vertically, horizontally, or diagonally, and multiple captures can occur on a single move.</p>
+      <figure>
+        <img src="reources/images/capture_1.png" alt="Capture Example 1">
+        <figcaption>To capture stones</figcaption>
+    </figure>
+    
+    <figure>
+        <img src="reources/images/capture_2.png" alt="Capture Example 2">
+        <figcaption>Bracket your opponent</figcaption>
+    </figure>
+    
+    <figure>
+        <img src="reources/images/capture_3.png" alt="Capture Example 3">
+        <figcaption>And remove the pair.</figcaption>
+    </figure>
+    
+    
+    <h3>Winning the Game</h3>
+    <p>The game ends immediately when one player captures five pairs, or places five stones in a row. The opposing player has no “last chance” to make a final move.
+
+      When a player obtains an unblocked row of four stones, called a tessera, a win is imminent. Therefore, an unblocked row of three stones, called a tria, is a serious threat that should be blocked unless a stronger offensive move exists. An unblocked row of three stones, if it contains one gap, is still considered a tria. In the example to the right, black has formed both a horizontal and a vertical tria, while white has formed a tessera and will win with the next move.</p>
+    <img src="reources/images/winning_The_Game.png" alt="Winning the Game">
+    
+    <h3>Etiquette</h3>
+    
+    
+    <p>It is a customary, but not mandatory, refinement of this game to announce “three” or “tria” when moving to make an open three, and also to call “four” or “tessera” when making four in a row. This is so that one's opponent does not forget to stop the formation of an open four, or five—because there is no fun in winning a game owing to the blunder of the adversary; at least there shouldn't be. The idea is to win in spite of one's opponent seeing every threat. Pointing out a player's errant move also demonstrates one's own confidence and mastery of play.</p>
+  </div>
+  
+  <script src="reources/js/storeData.js"></script>
+</body>
+</html>

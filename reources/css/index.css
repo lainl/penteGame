@@ -1,0 +1,49 @@
+body {
+    font-family: 'Dosis', sans-serif;
+    background-color: rgb(67, 47, 31);
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1, p, label {
+    color: white;
+}
+
+input[type="text"] {
+    background-color: rgba(249, 249, 131, 0.888);
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 1em;
+    width: 200px;
+    text-align: center;
+    margin: 5px;
+}
+
+button {
+    background-color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: lightgray;
+}
+
+#tutorial {
+    background-color: white;
+    width: 60%;
+    margin: 40px auto 0;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#tutorial h2, #tutorial h3, #tutorial p {
+    color: black;
+}
+
