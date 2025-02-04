@@ -2,11 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("gameSetup");
     const playerTwoInput = document.getElementById("playerTwoInput");
     const playerTwoField = document.getElementById("playerTwo");
-    
-    // Show or hide Player 2 input based on radio 
+
     document.getElementById("modePvP").addEventListener("change", function () {
         playerTwoInput.style.display = "block";
-        playerTwoField.setAttribute("required", "required");
+        playerTwoField.removeAttribute("required");
     });
 
     document.getElementById("modePvAI").addEventListener("change", function () {
@@ -14,13 +13,12 @@ document.addEventListener("DOMContentLoaded", function () {
         playerTwoField.removeAttribute("required");
     });
 
-    // finally store the data
     form.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const playerOne = document.getElementById("playerOne").value.trim();
+        const playerOne = document.getElementById("playerOne").value.trim() || "Player 1";
         const gameMode = document.querySelector("input[name='gameMode']:checked").value;
-        const playerTwo = gameMode === "PvP" ? playerTwoField.value.trim() : "AI";
+        const playerTwo = gameMode === "PvP" ? (playerTwoField.value.trim() || "Player 2") : "AI";
 
         const gameData = {
             p1: playerOne,
@@ -29,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         localStorage.setItem("penteGameData", JSON.stringify(gameData));
-        
+
         console.log("Game data saved:", gameData);
 
         window.location.href = "reources/board.html"; 

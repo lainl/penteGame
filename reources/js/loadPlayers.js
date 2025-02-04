@@ -8,7 +8,4 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("playerOne").textContent = "Player 1: " + (gameData.p1 || "Unknown");
     document.getElementById("playerTwo").textContent = "Player 2: " + (gameData.p2 || "Unknown");
 
-
- 
-    
 });
