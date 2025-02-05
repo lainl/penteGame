@@ -106,4 +106,19 @@ describe("Pente Game Logic", () => {
         expect(boardState[2][0]).toBe(null);
         expect(boardState[3][0]).toBe(null);
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const gameUpdater = document.getElementById("gameUpdater");
+        const p1TxtBox = document.getElementById("p1TxtBox");
+        const p2TxtBox = document.getElementById("p2TxtBox");
+    
+        console.assert(gameUpdater !== null, " gameUpdater is null");
+        console.assert(p1TxtBox !== null, " p1TxtBox is null");
+        console.assert(p2TxtBox !== null, " p2TxtBox is null");
+    
+        if (p1TxtBox && p2TxtBox) {
+            console.log(" p1TxtBox and p2TxtBox are loaded correctly.");
+        }
+    });
+    
 });

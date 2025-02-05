@@ -1,10 +1,12 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const gameUpdater = document.getElementById("gameUpdater");
     const boardContainer = document.getElementById("boardContainer");
     const gameData = JSON.parse(localStorage.getItem("penteGameData")) || {};
-    const p1TxtBox = document.getElementById("p1TxtBox");
-    const p2TxtBox = document.getElementById("p2TxtBox");
+
+    const p1TxtBox = document.getElementById("playerOne");
+   
+    const p2TxtBox = document.getElementById("playerTwo");
+
     let currentPlayer = "white";
     let ai = (gameData.gameMode === "PvAI");
     let boardState = [];
@@ -28,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function checkForWinner(x, y) {
         const color = boardState[x][y];
         if (!color) return false;
+
         function countDirection(dx, dy) {
             let count = 1;
             let nx = x + dx;
@@ -46,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             return count;
         }
+
         if (countDirection(1, 0) >= 5) return true;
         if (countDirection(0, 1) >= 5) return true;
         if (countDirection(1, 1) >= 5) return true;
@@ -62,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
             [1, -1], [-1, 1]
         ];
         let capturedPairCount = 0;
+
         for (let [dx, dy] of directions) {
             let x1 = x + dx;
             let y1 = y + dy;
@@ -69,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let y2 = y + 2 * dy;
             let x3 = x + 3 * dx;
             let y3 = y + 3 * dy;
+
             if (
                 x1 < 0 || x1 > 18 || y1 < 0 || y1 > 18 ||
                 x2 < 0 || x2 > 18 || y2 < 0 || y2 > 18 ||
@@ -76,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ) {
                 continue;
             }
+
             if (
                 boardState[x1][y1] === opponent &&
                 boardState[x2][y2] === opponent &&
@@ -83,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ) {
                 boardState[x1][y1] = null;
                 boardState[x2][y2] = null;
+
                 const cell1 = document.querySelector(`.cell[data-x="${x1}"][data-y="${y1}"]`);
                 const cell2 = document.querySelector(`.cell[data-x="${x2}"][data-y="${y2}"]`);
                 if (cell1) {
@@ -99,9 +107,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function endGame(winningColor) {
         gameOver = true;
-        const winnerName = winningColor === "white" ? gameData.p1 : gameData.p2;
+        const winnerName = (winningColor === "white") ? gameData.p1 : gameData.p2;
         let countdown = 5;
         gameUpdater.textContent = `${winnerName} (${winningColor}) wins! Returning in ${countdown}...`;
+
         const timer = setInterval(() => {
             countdown--;
             gameUpdater.textContent = `${winnerName} (${winningColor}) wins! Returning in ${countdown}...`;
@@ -118,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
         while (!success) {
             let x = getRandomInt(19);
             let y = getRandomInt(19);
-            let cell = document.querySelector(`.cell[data-x="${x}"][data-y="${y}"]`);
+            const cell = document.querySelector(`.cell[data-x="${x}"][data-y="${y}"]`);
             if (
                 cell &&
                 !cell.style.backgroundImage.includes("white.png") &&
@@ -177,15 +186,14 @@ document.addEventListener("DOMContentLoaded", function () {
         let foundTria = false;
         let foundTesera = false;
         const directions = [
-            [1, 0],
-            [0, 1],
-            [1, 1],
-            [1, -1]
+            [1, 0], [0, 1], [1, 1], [1, -1]
         ];
+
         for (let [dx, dy] of directions) {
             let count = 1;
             let frontOpen = false;
             let backOpen = false;
+
             let nx = x + dx;
             let ny = y + dy;
             while (
@@ -197,13 +205,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 nx += dx;
                 ny += dy;
             }
-            if (
-                nx >= 0 && nx < 19 &&
-                ny >= 0 && ny < 19 &&
-                boardState[nx][ny] === null
-            ) {
+            if (nx >= 0 && nx < 19 && ny >= 0 && ny < 19 && boardState[nx][ny] === null) {
                 frontOpen = true;
             }
+
             nx = x - dx;
             ny = y - dy;
             while (
@@ -215,13 +220,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 nx -= dx;
                 ny -= dy;
             }
-            if (
-                nx >= 0 && nx < 19 &&
-                ny >= 0 && ny < 19 &&
-                boardState[nx][ny] === null
-            ) {
+            if (nx >= 0 && nx < 19 && ny >= 0 && ny < 19 && boardState[nx][ny] === null) {
                 backOpen = true;
             }
+
             if (count === 3 && frontOpen && backOpen) {
                 foundTria = true;
             }
@@ -234,36 +236,67 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function placeStone(x, y, cell) {
         if (gameOver) return;
-        if (!cell) {
-            return;
-        }
+        if (!cell) return;
+    
         if (
             cell.style.backgroundImage.includes("white.png") ||
             cell.style.backgroundImage.includes("black.png")
         ) {
             return;
         }
-        if (currentPlayer === "white") {
-            if (whiteMoveCount === 0) {
-                if (x !== 9 || y !== 9) {
-                    return;
-                }
-            }
+    
+        if (currentPlayer === "white" && whiteMoveCount === 0) {
+            if (x !== 9 || y !== 9) return;
             whiteMoveCount++;
         }
+    
         cell.style.backgroundImage = `url('images/${currentPlayer}.png')`;
         boardState[x][y] = currentPlayer;
+    
         const patternCheck = checkTriaTesera(x, y, currentPlayer);
+    
         if (patternCheck.foundTria) {
-            const box = currentPlayer === "white" ? p1TxtBox : p2TxtBox;
-            box.textContent = "Tria!";
-            setTimeout(() => { box.textContent = ""; }, 5000);
+            const box = (currentPlayer === "white") ? p1TxtBox : p2TxtBox;
+            if (box) {
+                const triaMsg = document.createElement("div");
+                triaMsg.textContent = "Tria!";
+                triaMsg.style.color = "cyan";
+                triaMsg.style.fontWeight = "bold";
+                triaMsg.style.marginTop = "5px";
+    
+                triaMsg.dataset.position = `${x}-${y}`;
+    
+
+                const existingTria = box.querySelector(`[data-position='${x}-${y}']`);
+                if (!existingTria) {
+                    box.appendChild(triaMsg);
+                    setTimeout(() => {
+                        if (triaMsg.parentNode) {
+                            triaMsg.parentNode.removeChild(triaMsg);
+                        }
+                    }, 5000);
+                }
+            }
         }
+    
         if (patternCheck.foundTesera) {
-            const box = currentPlayer === "white" ? p1TxtBox : p2TxtBox;
-            box.textContent = "Tesera!";
-            setTimeout(() => { box.textContent = ""; }, 5000);
+            const box = (currentPlayer === "white") ? p1TxtBox : p2TxtBox;
+            if (box) {
+                const teseraMsg = document.createElement("div");
+                teseraMsg.textContent = "Tesera!";
+                teseraMsg.style.color = "yellow";
+                teseraMsg.style.fontWeight = "bold";
+                teseraMsg.style.marginTop = "5px";
+                box.appendChild(teseraMsg);
+    
+                setTimeout(() => {
+                    if (teseraMsg.parentNode) {
+                        teseraMsg.parentNode.removeChild(teseraMsg);
+                    }
+                }, 5000);
+            }
         }
+    
         const newCaptures = checkCaptures(x, y, currentPlayer);
         if (newCaptures > 0) {
             if (currentPlayer === "white") {
@@ -290,16 +323,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         }
+    
         if (checkForWinner(x, y)) {
             endGame(currentPlayer);
             return;
         }
-        currentPlayer = currentPlayer === "white" ? "black" : "white";
+    
+        currentPlayer = (currentPlayer === "white") ? "black" : "white";
         updateTurnMessage();
+    
         if (ai && currentPlayer === "black") {
             aiMove();
         }
     }
+    
 
     function setupGameplay() {
         createBoard();
@@ -317,4 +354,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.addEventListener("resize", resizeBoard);
 });
-
